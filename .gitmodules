@@ -1,0 +1,3 @@
+[submodule "net/UESENet/third"]
+	path = net/UESENet/third
+	url = https://github.com/yandex-research/rtdl-num-embeddings
