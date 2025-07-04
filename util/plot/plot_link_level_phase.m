@@ -7,7 +7,7 @@ function plot_link_level_phase(config)
 root_path = config.root_path;
 addpath(fullfile(root_path, 'result', 'data', 'link_level', 'phaseComp'));
 
-% NN-1 sample
+% % NN-1 sample
 py_interpreter = config.py_interpreter;
 py_uesenet_main_path = config.py_uesenet_main_path;
 UE_vec = 1;
@@ -19,7 +19,18 @@ max_num_sublab = 1;
                         ' --model_name ', 'vit.pth', ...
                         ' --UE_list ', [num2str(UE_vec)], ...
                         ' --num_lab ', num2str(num_lab), ...
-                        ' --max_num_sublab ', num2str(max_num_sublab)]);
+                        ' --max_num_sublab ', num2str(max_num_sublab)])
+
+suffix = '';
+
+% elem = 8:2:16;
+% cdf_data = [];
+% for p = 1:length(elem)
+%     path = ['link_level_CDF_sc_1333_from_AIRS_', num2str(elem(p)), 'x', num2str(elem(p)), '_BW_20MHz_SC_15KHz_fc_3p5GHz_approx', suffix, '.mat'];
+%     result_cdf = load(path).result_cdf;
+%     cdf_data = [cdf_data; result_cdf];
+% end
+% save("net/UESENet/result/data/cal/output/cdf_data_lab_1_1_numUE_1.mat", "cdf_data");
 
 % NN-2 sample
 config = gen_link_level_phase_sample(config, 2);
@@ -29,10 +40,10 @@ config = gen_link_level_phase_sample(config, 2);
                         ' --model_name ', 'cdf.pth', ...
                         ' --UE_list ', [num2str(UE_vec)], ...
                         ' --num_lab ', num2str(num_lab), ...
-                        ' --max_num_sublab ', num2str(max_num_sublab)]);
+                        ' --max_num_sublab ', num2str(max_num_sublab)])
 
 SE_data = load("net\UESENet\result\data\cal\output\SE_data_lab_1_1_numUE_1.mat").SE_data;
-CKM_output = SE_data(:,end);
+CKM_output = SE_data(:,end)
 
 % load data
 elem = 8:2:16;
@@ -41,10 +52,10 @@ num_scheme = 4;
 elem_output = zeros(num_case, num_scheme);
 for p = 1:num_case
     tmp = table2array(load(['link_level_SE_sc_1333_from_AIRS_', num2str(elem(p)), 'x', num2str(elem(p)), ...
-                            '_BW_20MHz_SC_15KHz_fc_3p5GHz_approx.mat']).ergodic_SE_MC_Table);
+                            '_BW_20MHz_SC_15KHz_fc_3p5GHz_approx', suffix, '.mat']).ergodic_SE_MC_Table);
     elem_output(p,:) = mean(tmp, 1);
 end
-elem_output(num_case,1:2) = elem_output(num_case,1:2)-0.3;
+% elem_output(num_case,1:2) = elem_output(num_case,1:2)-0.3;
 
 % plot
 figure;

@@ -1,11 +1,7 @@
 *.asv
 .idea
-*.pth
-*.xlsx
 net/UESENet/baseline/__pycache__
 net/UESENet/nets/__pycache__
 net/UESENet/utils/__pycache__
 net/UESENet/__pycache__
-net/UESENet/result/
-result/
-test/
+/test/link_level
